@@ -11,9 +11,9 @@
 void receive_number()
 {
     char buffer[BUFFER_SIZE];
-    int fd = open(PIPE_NUM, O_RDONLY);
-    read(fd, buffer, BUFFER_SIZE);
-    close(fd);
+    int opened_pipe = open(PIPE_NUM, O_RDONLY);
+    read(opened_pipe, buffer, BUFFER_SIZE);
+    close(opened_pipe);
 
     printf("Número recebido: %s\n", buffer);
 }
@@ -21,9 +21,9 @@ void receive_number()
 void receive_string()
 {
     char buffer[BUFFER_SIZE];
-    int fd = open(PIPE_STR, O_RDONLY);
-    read(fd, buffer, BUFFER_SIZE);
-    close(fd);
+    int opened_pipe = open(PIPE_STR, O_RDONLY);
+    read(opened_pipe, buffer, BUFFER_SIZE);
+    close(opened_pipe);
 
     printf("Música recebida: %s\n", buffer);
 }
