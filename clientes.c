@@ -8,6 +8,7 @@
 #define PIPE_NUM "/tmp/pipe_num"
 #define PIPE_STR "/tmp/pipe_str"
 
+//ler o numero recebido do servidor
 void receive_number()
 {
     char buffer[BUFFER_SIZE];
@@ -18,6 +19,7 @@ void receive_number()
     printf("Número recebido: %s\n", buffer);
 }
 
+//ler a string recebida do servidor
 void receive_string()
 {
     char buffer[BUFFER_SIZE];
@@ -25,11 +27,12 @@ void receive_string()
     read(opened_pipe, buffer, BUFFER_SIZE);
     close(opened_pipe);
 
-    printf("Música recebida: %s\n", buffer);
+    printf("Trecho recebida: %s\n", buffer);
 }
 
 int main()
 {
+    //bem bolado pra fazer a alternancia entre o num e a str e escrever no terminal RUNTIME
     while (1)
     {
         receive_number();

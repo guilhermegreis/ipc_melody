@@ -22,10 +22,7 @@ struct data_build {
 void init_struct(struct data_build *access_struct) {
     access_struct->len_data = 0;
     access_struct->ptr_char = malloc(access_struct->len_data + 1);
-    if (access_struct->ptr_char == NULL) {
-        fprintf(stderr, "Erro na alocacao de memoria\n");
-        exit(EXIT_FAILURE);
-    }
+  
     access_struct->ptr_char[0] = '\0';
 }
 
@@ -33,10 +30,7 @@ void init_struct(struct data_build *access_struct) {
 size_t my_callback_data(void *ptr_char, size_t size, size_t num_received, struct data_build *access_struct) {
     size_t new_len = access_struct->len_data + size * num_received;
     access_struct->ptr_char = realloc(access_struct->ptr_char, new_len + 1);
-    if (access_struct->ptr_char == NULL) {
-        fprintf(stderr, "Erro na realocao da memoria\n");
-        exit(EXIT_FAILURE);
-    }
+   
     memcpy(access_struct->ptr_char + access_struct->len_data, ptr_char, size * num_received);
     access_struct->ptr_char[new_len] = '\0';
     access_struct->len_data = new_len;
@@ -46,14 +40,14 @@ size_t my_callback_data(void *ptr_char, size_t size, size_t num_received, struct
 
 // Obtém e seleciona um trecho da música
 void get_song_extract_and_select(char *selected_song_excerpt) {
-    CURL *curl_handle;
-    CURLcode res;
+    CURL *curl_handle; //manipular o dado
+    CURLcode res; //retorno da library
 
-    struct data_build response;
-    init_struct(&response);
+    struct data_build response; //acumulo
+    init_struct(&response); //malloc
 
     char api_url[256];
-    snprintf(api_url, sizeof(api_url), "https://api.vagalume.com.br/search.php?art=Zezé%%20di%%20Camargo%%20e%%20Luciano&mus=Flores%%20em%%20Vida&apikey=88f28adee8598d94334ceb6f0b32a9fd");
+    snprintf(api_url, sizeof(api_url), "https://api.vagalume.com.br/search.php?art=Zezé%%20di%%20Camargo%%20e%%20Luciano&mus=Flores%%20em%%20Vida&apikey=88f28adee8598d94334ceb6f0b32a9fd"); //formatando e armazenando a url da api
 
     curl_handle = curl_easy_init();
     if (curl_handle) {
@@ -107,10 +101,7 @@ void send_random_num() {
     snprintf(buffer, BUFFER_SIZE, "%d", num);
 
     int pipe_fd = open(PIPE_NUM, O_WRONLY);
-    if (pipe_fd < 0) {
-        perror("Erro ao abrir o pipe numérico");
-        return;
-    }
+
     write(pipe_fd, buffer, strlen(buffer) + 1);
     close(pipe_fd);
     printf("Número enviado: %d\n", num);
@@ -122,16 +113,13 @@ void send_song_excerpt() {
     get_song_extract_and_select(song_buffer);
 
     int pipe_fd = open(PIPE_STR, O_WRONLY);
-    if (pipe_fd < 0) {
-        perror("Erro ao abrir o pipe de strings");
-        return;
-    }
+    
     write(pipe_fd, song_buffer, strlen(song_buffer) + 1);
     close(pipe_fd);
     printf("Trecho enviado: %s\n", song_buffer);
 }
 
-void *thread_function(void *args) {
+void *thread_function() {
     while (1) {
         send_random_num();
         send_song_excerpt();
