@@ -57,6 +57,7 @@
   "files.associations": {
     "*.ejs": "html",
     "fcntl.h": "c",
-    "string.h": "c"
+    "string.h": "c",
+    "stat.h": "c"
   }
 }
